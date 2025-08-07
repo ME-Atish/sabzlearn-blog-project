@@ -18,7 +18,9 @@ module.exports = {
 
     google: {},
   },
-  redis: {},
+  redis: {
+    uri: process.env.REDIS_URI
+  },
   domain: process.env.DOMAIN,
   isProduction: process.env.NODE_ENV === "production",
 };
