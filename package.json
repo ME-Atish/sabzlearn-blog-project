@@ -1,7 +1,7 @@
 {
   "name": "blog",
   "version": "1.0.0",
-  "main": "index.js",
+  "main": "server.js",
   "scripts": {
     "db": "dotenv -e .env -- sequelize-cli db:create --config ./sequelizeConfig.js"
   },
