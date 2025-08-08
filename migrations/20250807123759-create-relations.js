@@ -6,7 +6,7 @@ module.exports = {
 
     try {
       await queryInterface.addColumn("articles", "author_id", {
-        type: Sequelize.INTEGER.UNSIGNED,
+        type: Sequelize.INTEGER,
         allowNull: false,
         references: {
           model: "users",
@@ -17,7 +17,7 @@ module.exports = {
 
       await queryInterface.createTable("tags_articles", {
         article_id: {
-          type: Sequelize.INTEGER.UNSIGNED,
+          type: Sequelize.INTEGER,
           allowNull: false,
           references: {
             model: "articles",
@@ -26,7 +26,7 @@ module.exports = {
           onDelete: "cascade",
         },
         tag_id: {
-          type: Sequelize.INTEGER.UNSIGNED,
+          type: Sequelize.INTEGER,
           allowNull: false,
           references: {
             model: "tags",
@@ -37,7 +37,7 @@ module.exports = {
       });
 
       await queryInterface.addConstraint("tags_articles", {
-        fields: ["article_id", "teg_id"],
+        fields: ["article_id", "tag_id"],
         type: "unique",
         name: "unique_article",
       });

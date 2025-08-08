@@ -1,10 +1,5 @@
 const { Sequelize } = require("sequelize");
-
 const config = require("./config");
-const User = require("./models/User");
-const TagsArticles = require("./models/TagsArticles");
-const Tag = require("./models/Tag");
-const Article = require("./models/Article");
 
 const db = new Sequelize({
   host: config.db.host,
@@ -16,12 +11,21 @@ const db = new Sequelize({
   logging: config.isProduction ? false : console.log,
 });
 
+/**@type {import("sequelize").ModelCtor<import("sequelize").Model<any , any>} */
+const User = require("./models/User")(db);
+/**@type {import("sequelize").ModelCtor<import("sequelize").Model<any , any>} */
+const TagsArticles = require("./models/TagsArticles")(db);
+/**@type {import("sequelize").ModelCtor<import("sequelize").Model<any , any>} */
+const Tag = require("./models/Tag")(db);
+/**@type {import("sequelize").ModelCtor<import("sequelize").Model<any , any>} */
+const Article = require("./models/Article")(db);
+
 User.hasMany(Article, {
   foreignKey: "author_id",
   onDelete: "CASCADE ",
 });
 
-Article.belongsToMany(User, {
+Article.belongsTo(User, {
   foreignKey: "author_id",
   as: "author",
 });

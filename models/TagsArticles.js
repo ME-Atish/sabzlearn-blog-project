@@ -1,5 +1,5 @@
 const TagsArticles = (sequelize) =>
-  sequelize.db(
+  sequelize.define(
     "tags_articles",
     {},
     {
