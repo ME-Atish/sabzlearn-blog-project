@@ -6,9 +6,9 @@ const db = new Sequelize({
   port: config.db.port,
   username: config.db.user,
   password: config.db.password,
-  database: config.db.database,
+  database: config.db.name,
   dialect: config.db.dialect,
-  logging: config.isProduction ? false : console.log,
+  logging: false,
 });
 
 /**@type {import("sequelize").ModelCtor<import("sequelize").Model<any , any>} */
@@ -42,4 +42,15 @@ Tag.belongsToMany(Article, {
   foreignKey: "tag_id",
 });
 
-module.exports = db;
+// const testUser = async () => {
+//   await User.create({
+//     username: "helll",
+//     name: "hepppp",
+//     email :"djkeqfjpiqeafjp@gamil.com",
+//     password: "doqhehdipqwjdo"
+//   })
+// }
+
+// testUser()
+
+module.exports = { db, User, Article, Tag };

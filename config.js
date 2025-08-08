@@ -11,7 +11,7 @@ module.exports = {
 
   port: parseInt(process.env.PORT),
   auth: {
-    accessTokenSecretKey: process.env.ACCESS_TOKEN_SECRET,
+    accessTokenSecretKey: process.env.ACCESS_TOKEN_SECRET_KEY,
     refreshTokenSecretKey: process.env.REFRESH_TOKEN_SECRET_KEY,
     accessTokenExpireTimeInSecond: process.env.ACCESS_TOKEN_EXPIRE_IN_SECOND,
     refreshTokenExpireTimeInSecond: process.env.REFRESH_TOKEN_EXPIRE_IN_SECOND,
@@ -19,7 +19,7 @@ module.exports = {
     google: {},
   },
   redis: {
-    uri: process.env.REDIS_URI
+    uri: process.env.REDIS_URI,
   },
   domain: process.env.DOMAIN,
   isProduction: process.env.NODE_ENV === "production",

@@ -20,8 +20,8 @@ app.use(express.static(path.resolve(__dirname, "public")));
 
 // app.use(localStrategy);
 
-app.use("captcha", captchaController.get);
-app.use("auth", authRouter);
-app.use("article", articleRouter);
+app.use("/captcha", captchaController.get);
+app.use("/auth", authRouter);
+app.use("/article", articleRouter);
 
 module.exports = app;
