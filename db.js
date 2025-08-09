@@ -42,15 +42,5 @@ Tag.belongsToMany(Article, {
   foreignKey: "tag_id",
 });
 
-// const testUser = async () => {
-//   await User.create({
-//     username: "helll",
-//     name: "hepppp",
-//     email :"djkeqfjpiqeafjp@gamil.com",
-//     password: "doqhehdipqwjdo"
-//   })
-// }
-
-// testUser()
 
 module.exports = { db, User, Article, Tag };

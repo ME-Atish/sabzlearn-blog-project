@@ -26,7 +26,7 @@ const Article = (sequelize) =>
       tableName: "articles",
       timestamps: true,
       createdAt: "created_at",
-      updated_at: "updated_at",
+      updatedAt: "updated_at",
     }
   );
 
