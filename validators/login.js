@@ -11,7 +11,7 @@ const loginScheme = yup.object().shape({
     .string()
     .oneOf([yup.ref("password")])
     .required(),
-
+  uuid: yup.string().uuid().required(),
   captcha: yup.string().max(4).required(),
 });
 

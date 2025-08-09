@@ -4,7 +4,7 @@ const passport = require("passport");
 const fs = require("fs");
 const path = require("path");
 
-const localStrategy = require("./strategies/localStrategy")
+const localStrategy = require("./strategies/localStrategy");
 const captchaController = require("./controllers/captcha");
 const authRouter = require("./router/auth");
 const articleRouter = require("./router/article");
@@ -20,6 +20,9 @@ app.use(express.static(path.resolve(__dirname, "public")));
 
 passport.use(localStrategy);
 
+app.get("/", (req, res) => {
+  res.render("login.ejs");
+});
 app.use("/captcha", captchaController.get);
 app.use("/auth", authRouter);
 app.use("/article", articleRouter);

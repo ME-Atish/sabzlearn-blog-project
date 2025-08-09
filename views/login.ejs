@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <form action="/auth/login" , method="post">
+      <input
+        type="text"
+        name="username"
+        class="username"
+        ,
+        placeholder="Enter username"
+      />
+      <input
+        type="password"
+        name="password"
+        class="password"
+        placeholder="Enter password"
+      />
+      <input type="text" name="captcha" placeholder="Enter captcha" />
+      <input type="password" name="confirmPassword" placeholder="enter confirm password" />
+      <div class="captcha"></div>
+      <input type="hidden" name="uuid" class="uuid" />
+      <input type="submit" value="Login" />
+    </form>
+    <script>
+      (async function () {
+        const captcha = document.querySelector(".captcha");
+        const uuid = document.querySelector(".uuid");
+
+        const res = await fetch("/captcha");
+        const response = await res.json();
+
+        console.log(response);
+
+        uuid.value = response.uuid;
+        captcha.innerHTML = response.captcha;
+      })();
+    </script>
+  </body>
+</html>
