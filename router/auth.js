@@ -20,4 +20,6 @@ router
     controller.login
   );
 
+router.route("/me").get(passport.authenticate("accessToken", {session: false}), controller.me) 
+  
 module.exports = router;
