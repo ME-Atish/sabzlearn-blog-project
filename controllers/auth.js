@@ -102,3 +102,17 @@ exports.me = async (req, res, next) => {
     }
   }
 };
+
+exports.logout = async (req, res, next) => {
+  try {
+    const redisKey = `refreshToken${req.user.id}`;
+
+    await redis.del(redisKey);
+
+    res.status(204).json({});
+  } catch (error) {
+    if (error) {
+      return res.status(500).json(error);
+    }
+  }
+};
