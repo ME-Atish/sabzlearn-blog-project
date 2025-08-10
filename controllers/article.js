@@ -88,3 +88,27 @@ exports.findBySlug = async (req, res, next) => {
     }
   }
 };
+
+exports.delete = async (req, res, next) => {
+  try {
+    const { id } = req.params;
+
+    const article = await Article.findByPk(id);
+
+    if (!article?.dataValues) {
+      return res.status(404).json({ message: "Article not found" });
+    }
+
+    if (!article?.dataValues.author_id === req.user.id) {
+      return res.status(403).json({ message: "Forbidden" });
+    }
+
+    await article.destroy();
+
+    res.status(200).json({ message: "Article removed successfully" });
+  } catch (error) {
+    if (error) {
+      return res.status(500).json({ message: error });
+    }
+  }
+};

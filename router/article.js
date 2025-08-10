@@ -19,4 +19,6 @@ router
 
 router.route("/:slug").get(controller.findBySlug)
 
+router.route("/:id").delete(passport.authenticate("accessToken", {session: false }), controller.delete)
+
 module.exports = router;
