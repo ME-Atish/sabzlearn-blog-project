@@ -112,3 +112,33 @@ exports.delete = async (req, res, next) => {
     }
   }
 };
+
+exports.getAll = async (req, res, next) => {
+  try {
+    const articles = await Article.findAll({
+      include: [
+        {
+          model: Tag,
+          attributes: ["title"],
+          through: {
+            attributes: [],
+          },
+        },
+        {
+          model: User,
+          attributes: {
+            exclude: ["password", "role"],
+          },
+          as: "author",
+        },
+      ],
+      order: [["created_at", "DESC"]],
+    });
+
+    res.status(200).json(articles)
+  } catch (error) {
+    if (error) {
+      return res.status(500).json(error);
+    }
+  }
+};
