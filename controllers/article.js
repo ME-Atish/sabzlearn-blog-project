@@ -1,5 +1,5 @@
 const { default: slugify } = require("slugify");
-const { Article, Tag } = require("../db");
+const { Article, Tag, User } = require("../db");
 
 exports.create = async (req, res, next) => {
   let { title, content, tags } = req.body;
@@ -43,6 +43,48 @@ exports.create = async (req, res, next) => {
       if (err.original.code === "ER_DUP_ENTRY") {
         slug = `${copyOfSlug}-${i++}`;
       }
+    }
+  }
+};
+
+exports.findBySlug = async (req, res, next) => {
+  try {
+    const article = await Article.findOne({
+      where: {
+        slug: req.params.slug,
+      },
+
+      attributes: {
+        exclude: ["author_id"],
+      },
+      include: [
+        {
+          model: User,
+          attributes: {
+            exclude: ["password"],
+          },
+          as: "author",
+        },
+        {
+          model: Tag,
+          attributes: ["title"],
+          through: {
+            attributes: [],
+          },
+        },
+      ],
+    });
+
+    if (!article.dataValues) {
+      return res.status(404).json({ message: "Page not found" });
+    }
+
+    const tags = article.dataValues.tags.map((tag) => tag.title);
+
+    return res.status(200).json(article.dataValues, tags);
+  } catch (error) {
+    if (error) {
+      return res.status(500).json(error);
     }
   }
 };

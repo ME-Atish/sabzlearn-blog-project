@@ -17,4 +17,6 @@ router
     controller.create
   );
 
+router.route("/:slug").get(controller.findBySlug)
+
 module.exports = router;
