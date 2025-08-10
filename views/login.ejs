@@ -5,161 +5,90 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Document</title>
   </head>
+
   <style>
-    :root {
-      --bg: #f5f7fb;
-      --card: #ffffff;
-      --accent: #2563eb;
-      --accent-600: #174ab6;
-      --muted: #6b7280;
-      --danger: #ef4444;
-      --radius: 10px;
-      --shadow: 0 6px 18px rgba(16, 24, 40, 0.08);
-      --glass: rgba(255, 255, 255, 0.6);
-      --max-w: 420px;
-      font-family: Inter, system-ui, -apple-system, "Segoe UI", Roboto,
-        "Helvetica Neue", Arial;
-    }
-
-    html,
-    body {
-      height: 100%;
+    /* Reset & Base Styles */
+    * {
+      box-sizing: border-box;
       margin: 0;
-      background: linear-gradient(180deg, #eef2ff 0%, var(--bg) 100%);
-      color: #0f172a;
+      padding: 0;
     }
 
-    /* Centering layout */
     body {
+      font-family: Arial, sans-serif;
+      background: linear-gradient(135deg, #4facfe, #00f2fe);
       display: flex;
       align-items: center;
       justify-content: center;
-      padding: 32px 16px;
+      min-height: 100vh;
     }
 
+    /* Form Container */
     form {
+      background: white;
+      padding: 20px 25px;
+      border-radius: 10px;
+      box-shadow: 0 5px 20px rgba(0, 0, 0, 0.15);
       width: 100%;
-      max-width: var(--max-w);
-      background: var(--card);
-      border-radius: var(--radius);
-      box-shadow: var(--shadow);
-      padding: 28px 22px;
-      box-sizing: border-box;
-      border: 1px solid rgba(15, 23, 42, 0.04);
+      max-width: 350px;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
     }
 
-    form input[type="text"],
-    form input[type="password"] {
-      width: 100%;
-      display: block;
-      box-sizing: border-box;
-      padding: 12px 14px;
-      margin: 10px 0;
-      border-radius: 8px;
-      border: 1px solid rgba(15, 23, 42, 0.08);
-      background: linear-gradient(
-        0deg,
-        rgba(255, 255, 255, 0.6),
-        rgba(255, 255, 255, 0.6)
-      );
-      font-size: 15px;
+    /* Input Styles */
+    input[type="text"],
+    input[type="password"] {
+      padding: 10px;
+      border-radius: 6px;
+      border: 1px solid #ccc;
+      font-size: 14px;
+      transition: 0.2s;
+    }
+
+    input[type="text"]:focus,
+    input[type="password"]:focus {
+      border-color: #4facfe;
       outline: none;
-      transition: box-shadow 0.12s ease, border-color 0.12s ease,
-        transform 0.06s ease;
+      box-shadow: 0 0 5px rgba(79, 172, 254, 0.5);
     }
 
-    form input[type="text"]::placeholder,
-    form input[type="password"]::placeholder {
-      color: var(--muted);
+    /* Submit Button */
+    input[type="submit"] {
+      background: linear-gradient(90deg, #4facfe, #00f2fe);
+      color: white;
+      font-weight: bold;
+      padding: 10px;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      transition: 0.2s;
+    }
+
+    input[type="submit"]:hover {
       opacity: 0.9;
     }
 
-    form input[type="text"]:focus,
-    form input[type="password"]:focus {
-      border-color: var(--accent);
-      box-shadow: 0 6px 18px rgba(37, 99, 235, 0.08);
-      transform: translateY(-1px);
-    }
-
-    /* specific classes keep their names */
-    .username {
-      /* optional additional tuning for username */
-    }
-    .password {
-      /* optional additional tuning for password */
-    }
-
-    /* captcha container */
+    /* Captcha Box */
     .captcha {
-      min-height: 54px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 10px;
-      padding: 10px;
-      margin: 10px 0 16px;
-      width: 100%;
-      border-radius: 8px;
-      background: linear-gradient(
-        90deg,
-        rgba(249, 250, 251, 1),
-        rgba(255, 255, 255, 0.9)
-      );
-      border: 1px dashed rgba(15, 23, 42, 0.06);
-      color: #0b1220;
-      font-weight: 600;
-      box-sizing: border-box;
-      word-break: break-word;
+      background: #f1f1f1;
+      border: 1px dashed #bbb;
+      border-radius: 6px;
+      padding: 8px;
+      text-align: center;
+      font-size: 16px;
+      font-weight: bold;
+      letter-spacing: 2px;
+      user-select: none;
     }
 
-    /* hidden uuid input should remain hidden visually */
-    input.uuid {
-      display: none;
+    /* Special classes */
+    .username {
+      background: #fff;
     }
 
-    /* submit button */
-    form input[type="submit"] {
-      width: 100%;
-      display: block;
-      margin-top: 6px;
-      padding: 12px 14px;
-      border-radius: 8px;
-      border: none;
-      background: var(--accent);
-      color: #fff;
-      font-weight: 600;
-      font-size: 15px;
-      cursor: pointer;
-      transition: background-color 0.12s ease, transform 0.06s ease;
-    }
-
-    form input[type="submit"]:hover {
-      background: var(--accent-600);
-      transform: translateY(-1px);
-    }
-
-    /* small screens tweak */
-    @media (max-width: 420px) {
-      form {
-        padding: 20px 16px;
-        border-radius: 12px;
-      }
-      .captcha {
-        padding: 8px;
-        min-height: 48px;
-      }
-    }
-
-    /* optional accessibility/focus style */
-    input:focus {
-      outline: 3px solid rgba(37, 99, 235, 0.1);
-    }
-
-    /* error appearance (if you want to show errors later) */
-    .error {
-      color: var(--danger);
-      font-size: 13px;
-      margin-top: 6px;
+    .password {
+      background: #fff;
     }
   </style>
 
@@ -181,7 +110,7 @@
       <input
         type="password"
         name="confirmPassword"
-        placeholder="enter confirm password"
+        placeholder="Enter confirm password"
       />
       <input type="text" name="captcha" placeholder="Enter captcha" />
       <div class="captcha"></div>
