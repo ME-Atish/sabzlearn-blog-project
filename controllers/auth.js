@@ -76,11 +76,12 @@ exports.login = async (req, res, next) => {
     const hashedRefreshToken = await bcrypt.hash(refreshToken, 12);
 
     await redis.set(
-      `refreshToken: ${user.id}`,
+      `refreshToken:${user.id}`,
       hashedRefreshToken,
       "EX",
       config.auth.refreshTokenExpireTimeInSecond
     );
+
     return res.status(201).json({
       accessToken,
       refreshToken,
@@ -88,6 +89,29 @@ exports.login = async (req, res, next) => {
   } catch (err) {
     if (err) {
       return res.status(500).json(err.errors);
+    }
+  }
+};
+
+exports.refreshToken = async (req, res, next) => {
+  try {
+    const user = req.user;
+
+    const accessToken = jwt.sign(
+      {
+        id: user.id,
+        role: user.role,
+      },
+      config.auth.refreshTokenSecretKey,
+      {
+        expiresIn: config.auth.refreshTokenExpireTimeInSecond + "s",
+      }
+    );
+
+    return res.status(200).json({ accessToken: accessToken });
+  } catch (error) {
+    if (error) {
+      return res.status(500).json(error);
     }
   }
 };

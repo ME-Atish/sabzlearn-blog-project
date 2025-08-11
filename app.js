@@ -5,7 +5,8 @@ const path = require("path");
 
 const localStrategy = require("./strategies/localStrategy");
 const JwtAccessTokenStrategy = require("./strategies/jwtAccessTokenStrategy");
-const googleStrategy = require("./strategies/googleStrategy")
+const JwtRefreshTokenStrategy = require("./strategies/jwtRefreshTokenStrategy");
+const googleStrategy = require("./strategies/googleStrategy");
 const captchaController = require("./controllers/captcha");
 const authRouter = require("./router/auth");
 const articleRouter = require("./router/article");
@@ -22,6 +23,7 @@ app.use(express.static(path.resolve(__dirname, "public")));
 passport.use(localStrategy);
 passport.use(googleStrategy);
 passport.use("accessToken", JwtAccessTokenStrategy);
+passport.use("refreshToken", JwtRefreshTokenStrategy);
 
 app.get("/", (req, res) => {
   res.render("login.ejs");

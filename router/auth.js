@@ -21,7 +21,11 @@ router
   );
 
 router
-  .route(".logout")
+  .route("/refresh-token")
+  .post(passport.authenticate("refreshToken", { session: false }),controller.refreshToken);
+
+router
+  .route("/logout")
   .post(
     passport.authenticate("accessToken", { session: false }),
     controller.logout
