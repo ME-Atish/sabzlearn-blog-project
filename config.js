@@ -16,7 +16,10 @@ module.exports = {
     accessTokenExpireTimeInSecond: process.env.ACCESS_TOKEN_EXPIRE_IN_SECOND,
     refreshTokenExpireTimeInSecond: process.env.REFRESH_TOKEN_EXPIRE_IN_SECOND,
 
-    google: {},
+    google: {
+      clientId: process.env.GOOGLE_CLIENT_ID,
+      clientSecret: process.env.GOOGLE_CLIENT_SECRET,
+    },
   },
   redis: {
     uri: process.env.REDIS_URI,
