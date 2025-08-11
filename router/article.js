@@ -15,10 +15,22 @@ router
     uploader.single("cover"),
     validate(createArticleValidator),
     controller.create
-  ).get(controller.getAll);
+  )
+  .get(controller.getAll);
 
-router.route("/:slug").get(controller.findBySlug)
+router.route("/:slug").get(controller.findBySlug);
 
-router.route("/:id").delete(passport.authenticate("accessToken", {session: false }), controller.delete)
+router
+  .route("/:id")
+  .delete(
+    passport.authenticate("accessToken", { session: false }),
+    controller.delete
+  )
+  .put(
+    passport.authenticate("accessToken", {session: false}),
+    uploader.single("cover"),
+    validate(createArticleValidator),
+    controller.update
+  );
 
 module.exports = router;

@@ -135,10 +135,82 @@ exports.getAll = async (req, res, next) => {
       order: [["created_at", "DESC"]],
     });
 
-    res.status(200).json(articles)
+    res.status(200).json(articles);
   } catch (error) {
     if (error) {
       return res.status(500).json(error);
+    }
+  }
+};
+
+exports.update = async (req, res, next) => {
+  const { id } = req.params;
+
+  let article = await Article.findByPk(id, {
+    include: {
+      model: Tag,
+      through: { attributes: [] },
+    },
+  });
+
+  if (!article) {
+    return res.status(404).json({ message: "Article not found" });
+  }
+
+  if (article.author_id !== req.user.id) {
+    return res.status(403).json({ message: "Forbidden" });
+  }
+
+  let { title, content, tags } = req.body;
+  let slug = slugify(title, { lower: true });
+  const copyOfSlug = slug;
+
+  const authorId = req.user.id;
+  tags = Array.isArray(tags) ? tags : [tags];
+
+  const tagInstances = await Promise.all(
+    tags.map((tag) =>
+      Tag.findOrCreate({
+        where: { title: tag.trim() },
+      }).then(([tagInstance]) => tagInstance)
+    )
+  );
+
+  const coverPath = req.file
+    ? `image/covers/${req.file.filename}`
+    : article.cover;
+  let i = 1;
+
+  while (true) {
+    try {
+      await article.update({
+        title,
+        content,
+        slug,
+        author_id: authorId,
+        cover: coverPath,
+      });
+
+      await article.setTags(tagInstances);
+
+      const updatedArticle = await Article.findByPk(id, {
+        attributes: { exclude: ["author_id"] },
+        include: {
+          model: Tag,
+          through: { attributes: [] },
+        },
+      });
+
+      return res.status(200).json({
+        ...updatedArticle.dataValues,
+        tags: tagInstances.map((tag) => tag.title),
+      });
+    } catch (err) {
+      if (err.original && err.original.code === "ER_DUP_ENTRY") {
+        slug = `${copyOfSlug}-${i++}`;
+      } else {
+        return next(err);
+      }
     }
   }
 };
