@@ -38,6 +38,6 @@ module.exports = new JwtStrategy(
       return done(null, false);
     }
 
-    done(null, user);
+    return done(null, user);
   }
 );
